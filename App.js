@@ -26,7 +26,7 @@ import ctx from './lib/context';
 
 function App() {
   let [state, setState] = React.useState({
-    statsState: {name: null, status: null, date: null},
+    statsState: null,
     page: 'scanner',
     selectedIndex: 1,
   });
