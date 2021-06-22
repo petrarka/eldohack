@@ -4,7 +4,6 @@ import ctx from '../lib/context';
 
 export default function MyMenu({state}) {
   const {setPage} = useContext(ctx);
-  const {selectedIndex} = state;
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>

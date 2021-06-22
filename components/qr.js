@@ -8,10 +8,19 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
 
 export default function ScanScreen() {
-  const {setStats} = useContext(ctx);
-  function onSuccess() {
-    console.log('Засканило');
-    setStats(true);
+  const {setStats, updToDo} = useContext(ctx);
+  async function onSuccess(e) {
+    try {
+      console.log('Засканило');
+      console.log(e.data);
+      let prom = await fetch(e.data + '&seller=1');
+      let json = await prom.json();
+
+      updToDo(json);
+      setStats(json);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -19,8 +28,8 @@ export default function ScanScreen() {
       onRead={onSuccess}
       flashMode={RNCamera.Constants.FlashMode.torch}
       //topContent={<Text>Направь камеру на ценник</Text>}
+      reactivateTimeout={5}
       reactivate={true}
-      reactivateTimeout={3}
       showMarker={true}
     />
   );

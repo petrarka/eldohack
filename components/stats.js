@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
 import {StyleSheet, Text, Button, View} from 'react-native';
+
 import ctx from '../lib/context';
 
 export default function Stats({state}) {
@@ -21,21 +22,37 @@ export default function Stats({state}) {
       minHeight: 150,
       justifyContent: 'center',
     },
+    smallText: {
+      display: 'flex',
+      color: '#000',
+      textAlign: 'center',
+    },
   };
 
   let text = 'Наведи на ценник';
-  if (state.statsState === true) {
+  if (state.outdated === false) {
     text = 'Ценник верен!';
-    styles.view.backgroundColor = '#009933';
+    styles.view.backgroundColor = '#46a165';
   }
-  if (state.statsState === false) {
+  if (state.outdated === true) {
     text = 'Ценник не верен!';
-    styles.view.backgroundColor = '#cc0000';
+    styles.view.backgroundColor = '#af4f4f';
   }
   let stylesComp = StyleSheet.create(styles);
+  let data = <Text />;
+  if (state.outdated != null) {
+    data = (
+      <Text style={stylesComp.smallText}>
+        {state.item_name} СКУД: {state.item_id} {'\n'}
+        Дата создания этого ценника ценника:{'\n'} {state.this_tag_date} {'\n'}
+        Последняя версия ценника:{'\n'} {state.latest_tag_date} {'\n'}
+      </Text>
+    );
+  }
   return (
     <View style={stylesComp.view}>
       <Text style={stylesComp.stats}>{text}</Text>
+      {data}
     </View>
   );
 }
